@@ -43,7 +43,7 @@ npm run preview   # serve the production build locally
 
 `npm run build` produces a fully static `dist/` folder. The app uses hash routing (`/#/module/civil`) and relative asset paths (`base: './'`), so it works from any folder on any static host without rewrite rules.
 
-- **GitHub Pages**: build, then publish `dist/` (for example with the `actions/upload-pages-artifact` and `actions/deploy-pages` actions, or by pushing `dist/` to a `gh-pages` branch).
+- **GitHub Pages**: `.github/workflows/deploy.yml` tests, builds and deploys the site on every push to the default branch. In the repository go to Settings → Pages and set Source to **GitHub Actions**. The site is published at `https://<user>.github.io/<repo>/`.
 - **Netlify / Cloudflare Pages / Vercel**: build command `npm run build`, publish directory `dist`.
 - **School web server or USB drive**: copy the contents of `dist/` and open `index.html` through a web server. Some browsers block module scripts from `file://`.
 
