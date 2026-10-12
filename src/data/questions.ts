@@ -223,6 +223,17 @@ export const QUESTIONS: Question[] = [
     ],
     answer: 1,
   }),
+  mcq({
+    id: 'cs-mc15', module: 'civil', topic: 'Stress & strain', difficulty: 'medium', diagram: 'stress-strain',
+    stem: 'The stress–strain curve shown is for a mild-steel tensile test. Which point marks the ultimate tensile strength?',
+    options: [
+      { text: 'P', why: 'P is the (upper) yield point at the end of the elastic region.' },
+      { text: 'Q', why: 'Q is the end of the yield plateau, where strain hardening begins.' },
+      { text: 'R', why: 'Correct. R is the maximum engineering stress — necking begins here.' },
+      { text: 'S', why: 'S is fracture; the engineering stress has fallen because the original area is used.' },
+    ],
+    answer: 2,
+  }),
   // ════════════════ TRANSPORT — MCQ ════════════════
   mcq({
     id: 'pt-mc1', module: 'transport', topic: 'Friction', difficulty: 'easy',
