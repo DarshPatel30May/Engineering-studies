@@ -372,3 +372,25 @@ describe('telecommunications', () => {
     close(wavelength(100e6), 2.998, 1e-3);
   });
 });
+
+import { joukowskiFlow } from './aero';
+describe('Joukowski aerofoil', () => {
+  it('lift increases with angle of attack and is zero at the zero-lift angle', () => {
+    const a = joukowskiFlow(0);
+    const b = joukowskiFlow(8);
+    expect(b.cl).toBeGreaterThan(a.cl);
+    expect(a.cl).toBeGreaterThan(0); // cambered
+    // zero-lift angle α = −β
+    const beta = Math.asin(0.08 / Math.hypot(1.09, 0.08)) * (180 / Math.PI);
+    expect(Math.abs(joukowskiFlow(-beta).cl)).toBeLessThan(1e-9);
+    // thin-aerofoil slope ≈ 2π per radian (Joukowski is slightly higher due to thickness)
+    const slope = (b.cl - a.cl) / ((8 * Math.PI) / 180);
+    expect(slope).toBeGreaterThan(2 * Math.PI * 0.95);
+    expect(slope).toBeLessThan(2 * Math.PI * 1.25);
+  });
+  it('streamlines pass the aerofoil without terminating early', () => {
+    const f = joukowskiFlow(5);
+    const done = f.streamlines.filter((l) => l[l.length - 1].x > 4).length;
+    expect(done).toBeGreaterThanOrEqual(f.streamlines.length - 2);
+  });
+});
