@@ -4,7 +4,7 @@ import { Calculator, CheckCircle2, XCircle, Lightbulb, RefreshCw, Eye } from 'lu
 import { TEMPLATES, type Problem, type ProblemDiagram, type Step } from '@/data/problems';
 import { MODULE_MAP } from '@/data/modules';
 import { approxEqual, parseNum, sig } from '@/lib/calc/format';
-import { PageHeader, Card, Badge, M, cx } from '@/components/ui';
+import { PageHeader, Card, Badge, M, cx, MathText } from '@/components/ui';
 import { Arrow, PinSupport, RollerSupport, Label, COL, DimH, Hatch } from '@/components/diagrams/svg';
 
 export default function Solver() {
@@ -56,7 +56,7 @@ function ProblemRunner({ problem, title, onNew, isExample }: { problem: Problem;
       </ol>
       {done && (
         <Card className="border-l-4 border-l-emerald-500" title="Final answer">
-          <p className="prose-eng">{problem.final}</p>
+          <p className="prose-eng"><MathText text={problem.final} /></p>
           <button className="btn btn-primary mt-3" onClick={onNew}><RefreshCw size={14} /> Try a new version</button>
         </Card>
       )}
@@ -67,7 +67,7 @@ function ProblemRunner({ problem, title, onNew, isExample }: { problem: Problem;
 function StepDone({ step }: { step: Step }) {
   return (
     <div className="rounded-xl border border-emerald-200 bg-emerald-50/50 px-4 py-3 dark:border-emerald-900 dark:bg-emerald-950/20">
-      <div className="flex items-center gap-2 text-sm font-medium"><CheckCircle2 size={16} className="text-emerald-600" /> {step.prompt}</div>
+      <div className="flex items-center gap-2 text-sm font-medium"><CheckCircle2 size={16} className="text-emerald-600" /> <MathText text={step.prompt} /></div>
       <div className="mt-1 pl-6">{step.solution.map((l, i) => <M key={i} block>{l}</M>)}</div>
     </div>
   );
@@ -96,7 +96,7 @@ function StepActive({ step, onPass }: { step: Step; onPass: () => void }) {
   };
   return (
     <div className="rounded-xl border-2 border-emerald-400 bg-white px-4 py-3 shadow-sm dark:border-emerald-700 dark:bg-ink-900">
-      <div className="font-medium">{step.prompt}</div>
+      <div className="font-medium"><MathText text={step.prompt} /></div>
       {step.kind === 'number' ? (
         <div className="mt-2 flex flex-wrap items-center gap-2">
           <input className="input w-40" inputMode="decimal" value={val} onChange={(e) => (setVal(e.target.value), setFb(null))} onKeyDown={(e) => e.key === 'Enter' && checkNumber()} aria-label="Your answer" autoFocus />
@@ -109,16 +109,16 @@ function StepActive({ step, onPass }: { step: Step; onPass: () => void }) {
         <div className="mt-2 space-y-1.5">
           {step.options.map((o, k) => (
             <button key={k} className={cx('w-full rounded-lg border px-3 py-2 text-left text-sm', fb && k === step.answer && fb.ok ? 'border-emerald-500 bg-emerald-50 dark:bg-emerald-950/40' : 'border-ink-200 hover:border-emerald-400 dark:border-ink-700')} onClick={() => setFb({ ok: k === step.answer, msg: o.feedback })}>
-              {o.text}
+              <MathText text={o.text} />
             </button>
           ))}
         </div>
       )}
-      {hint && step.kind === 'number' && <p className="mt-2 text-sm text-amber-700 dark:text-amber-400">💡 {step.hint}</p>}
+      {hint && step.kind === 'number' && <p className="mt-2 text-sm text-amber-700 dark:text-amber-400">💡 <MathText text={step.hint} /></p>}
       {fb && (
         <div className={cx('mt-2 flex items-start gap-2 rounded-lg px-3 py-2 text-sm', fb.ok ? 'bg-emerald-50 text-emerald-800 dark:bg-emerald-950/40 dark:text-emerald-200' : 'bg-red-50 text-red-800 dark:bg-red-950/40 dark:text-red-200')}>
           {fb.ok ? <CheckCircle2 size={16} className="mt-0.5" /> : <XCircle size={16} className="mt-0.5" />}
-          <span>{fb.msg}</span>
+          <span><MathText text={fb.msg} /></span>
         </div>
       )}
       {(fb?.ok || reveal) && (

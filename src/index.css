@@ -4,6 +4,10 @@
 @tailwind utilities;
 
 @layer base {
+  /* Grid items default to min-width:auto, which lets wide SVGs/inputs push past narrow screens. */
+  .grid > * {
+    min-width: 0;
+  }
   :root {
     color-scheme: light;
     --grid: rgba(15, 23, 42, 0.045);
@@ -160,4 +164,8 @@
   .print-break {
     break-before: page;
   }
+}
+
+.concept-map .react-flow__handle {
+  opacity: 0;
 }

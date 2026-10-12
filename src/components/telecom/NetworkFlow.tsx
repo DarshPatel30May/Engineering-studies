@@ -72,7 +72,7 @@ export default function NetworkFlow() {
     <Card title="Telecommunications network flow" subtitle="Click any element to learn its role. Animated links show the active path.">
       <Tabs value={route} onChange={setRoute} className="mb-3" tabs={[{ id: 'mobile', label: 'Mobile call to a home phone' }, { id: 'satellite', label: 'Remote satellite user' }]} />
       <div className="h-[380px] overflow-hidden rounded-lg border border-ink-200 dark:border-ink-800">
-        <ReactFlow nodes={nodes} edges={edges} fitView onNodeClick={(_, n) => setSel(n.id)} nodesDraggable={false} nodesConnectable={false} proOptions={{ hideAttribution: true }} colorMode={isDark ? 'dark' : 'light'}>
+        <ReactFlow nodes={nodes} edges={edges} fitView onNodeClick={(_, n) => setSel(n.id)} nodesDraggable={false} nodesConnectable={false} colorMode={isDark ? 'dark' : 'light'}>
           <Background gap={24} />
           <Controls showInteractive={false} />
         </ReactFlow>

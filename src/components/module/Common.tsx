@@ -178,7 +178,7 @@ export function ConceptsTab({ m }: { m: ModuleData }) {
               {c.example && (
                 <p className="prose-only mt-2 text-xs text-ink-500">
                   <span className="font-semibold">Example: </span>
-                  {c.example}
+                  <MathText text={c.example} />
                 </p>
               )}
               <Badge className="mt-2 capitalize">{c.tab}</Badge>
@@ -254,7 +254,7 @@ export function RevisionTab({ m }: { m: ModuleData }) {
         </Link>
       </div>
       <Card title="30-second summary" className="border-l-4 border-l-emerald-500">
-        <p className="prose-eng">{m.revision.thirtySecond}</p>
+        <p className="prose-eng"><MathText text={m.revision.thirtySecond} /></p>
       </Card>
       <Grid cols={2}>
         <Card title="Top takeaways">
@@ -294,8 +294,8 @@ export function RevisionTab({ m }: { m: ModuleData }) {
           <ul className="space-y-2 text-sm">
             {m.revision.misconceptions.map((x) => (
               <li key={x.wrong} className="rounded-lg border border-ink-100 p-2 dark:border-ink-800">
-                <div className="text-red-700 dark:text-red-400">✗ {x.wrong}</div>
-                <div className="text-emerald-700 dark:text-emerald-400">✓ {x.right}</div>
+                <div className="text-red-700 dark:text-red-400">✗ <MathText text={x.wrong} /></div>
+                <div className="text-emerald-700 dark:text-emerald-400">✓ <MathText text={x.right} /></div>
               </li>
             ))}
           </ul>

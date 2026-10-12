@@ -26,7 +26,7 @@ export default function RevisionSheets() {
               <div className="text-xs font-semibold uppercase tracking-wide text-ink-500">HSC Engineering Studies · Module {m.number} · {m.type}</div>
               <h2 className="text-xl font-bold">{m.name}</h2>
             </header>
-            <p className="mb-3 text-sm"><strong>30-second summary: </strong>{m.revision.thirtySecond}</p>
+            <p className="mb-3 text-sm"><strong>30-second summary: </strong><MathText text={m.revision.thirtySecond} /></p>
             <div className="grid gap-4 md:grid-cols-2">
               <section>
                 <h3 className="mb-1 text-sm font-bold">Key takeaways</h3>
@@ -34,7 +34,7 @@ export default function RevisionSheets() {
               </section>
               <section>
                 <h3 className="mb-1 text-sm font-bold">Formulas</h3>
-                <ul className="space-y-0.5 text-[13px]">{m.revision.formulas.map((id) => FORMULA_MAP[id] && <li key={id} className="flex justify-between gap-2 border-b border-ink-100 dark:border-ink-800"><span>{FORMULA_MAP[id].name}</span><M>{FORMULA_MAP[id].latex}</M></li>)}</ul>
+                <ul className="space-y-0.5 text-[13px]">{m.revision.formulas.map((id) => FORMULA_MAP[id] && <li key={id} className="flex flex-wrap items-center justify-between gap-x-3 border-b border-ink-100 py-1.5 dark:border-ink-800"><span>{FORMULA_MAP[id].name}</span><M className="ml-auto">{FORMULA_MAP[id].latex}</M></li>)}</ul>
               </section>
               <section>
                 <h3 className="mb-1 text-sm font-bold">Definitions</h3>
@@ -42,7 +42,7 @@ export default function RevisionSheets() {
               </section>
               <section>
                 <h3 className="mb-1 text-sm font-bold">Misconceptions</h3>
-                <ul className="space-y-1 text-[12.5px]">{m.revision.misconceptions.map((x) => <li key={x.wrong}>✗ {x.wrong}<br />✓ {x.right}</li>)}</ul>
+                <ul className="space-y-1 text-[12.5px]">{m.revision.misconceptions.map((x) => <li key={x.wrong}>✗ <MathText text={x.wrong} /><br />✓ <MathText text={x.right} /></li>)}</ul>
                 <h3 className="mb-1 mt-3 text-sm font-bold">Timeline highlights</h3>
                 <ul className="space-y-0.5 text-[12.5px]">{m.timeline.slice(0, 8).map((t) => <li key={t.title}><strong>{t.year}</strong> — {t.title}</li>)}</ul>
               </section>

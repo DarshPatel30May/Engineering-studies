@@ -6,7 +6,7 @@ import { MODULES, MODULE_MAP } from '@/data/modules';
 import { EXAM_SPEC } from '@/data/outcomes';
 import { useStored, type Attempt } from '@/lib/storage';
 import { approxEqual, parseNum, sig } from '@/lib/calc/format';
-import { PageHeader, Card, Tabs, Badge, M, Callout, Select, KeyPoints, cx, Stat } from '@/components/ui';
+import { PageHeader, Card, Tabs, Badge, M, Callout, Select, KeyPoints, cx, Stat, MathText } from '@/components/ui';
 import QuestionDiagram from '@/components/practice/QuestionDiagram';
 
 type Mode = 'mcq' | 'short' | 'calc' | 'diagram' | 'progress' | 'papers';
@@ -45,7 +45,7 @@ export default function Practice() {
       </PageHeader>
       <div className="mb-4 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
         <Stat label="Total marks" value={EXAM_SPEC.totalMarks} />
-        <Stat label="Working time" value={<span className="text-base">{EXAM_SPEC.time}</span>} />
+        <Stat label="Working time" value="3 h" sub="plus 5 minutes reading time" />
         <Stat label={EXAM_SPEC.sections[0].name} value={`${EXAM_SPEC.sections[0].marks} marks`} sub={EXAM_SPEC.sections[0].desc} />
         <Stat label={EXAM_SPEC.sections[1].name} value={`${EXAM_SPEC.sections[1].marks} marks`} sub={EXAM_SPEC.sections[1].desc} />
       </div>
@@ -115,7 +115,7 @@ function MCQView({ q, record, next, retry }: ViewProps<MCQ>) {
   return (
     <Card>
       {q.diagram && <div className="mb-3"><QuestionDiagram k={q.diagram} /></div>}
-      <p className="mb-3 font-medium">{q.stem}</p>
+      <p className="mb-3 font-medium"><MathText text={q.stem} /></p>
       <div className="space-y-2">
         {q.options.map((o, k) => {
           const correct = k === q.answer;
@@ -128,11 +128,11 @@ function MCQView({ q, record, next, retry }: ViewProps<MCQ>) {
             >
               <div className="flex gap-2">
                 <span className="font-mono font-bold">{String.fromCharCode(65 + k)}</span>
-                <span className="flex-1">{o.text}</span>
+                <span className="flex-1"><MathText text={o.text} /></span>
                 {done && correct && <CheckCircle2 size={17} className="text-emerald-600" />}
                 {done && k === pick && !correct && <XCircle size={17} className="text-red-500" />}
               </div>
-              {done && <p className={cx('mt-1 pl-6 text-xs', correct ? 'text-emerald-700 dark:text-emerald-400' : 'text-ink-600 dark:text-ink-400')}>{o.why}</p>}
+              {done && <p className={cx('mt-1 pl-6 text-xs', correct ? 'text-emerald-700 dark:text-emerald-400' : 'text-ink-600 dark:text-ink-400')}><MathText text={o.why} /></p>}
             </button>
           );
         })}
@@ -162,7 +162,7 @@ function ShortView({ q, record, next, retry }: ViewProps<ShortQ>) {
   return (
     <Card>
       {q.diagram && <div className="mb-3"><QuestionDiagram k={q.diagram} /></div>}
-      <p className="mb-2 font-medium">{q.stem} <span className="text-ink-500">({q.marks} marks)</span></p>
+      <p className="mb-2 font-medium"><MathText text={q.stem} /> <span className="text-ink-500">({q.marks} marks)</span></p>
       <textarea className="input min-h-[150px] font-sans" value={text} onChange={(e) => setText(e.target.value)} disabled={submitted} placeholder="Write your answer as you would in the exam. Use engineering terminology and link causes to effects." aria-label="Your answer" />
       <div className="mt-1 text-xs text-ink-500">{text.trim() ? text.trim().split(/\s+/).length : 0} words · aim for about {q.marks * 25}–{q.marks * 40} words</div>
       {!submitted ? (
@@ -174,7 +174,7 @@ function ShortView({ q, record, next, retry }: ViewProps<ShortQ>) {
               <h4 className="mb-1 text-sm font-semibold">Indicative marking criteria</h4>
               <table className="tbl">
                 <tbody>
-                  {q.criteria.map((c) => <tr key={c.marks}><td className="w-16 font-mono font-semibold">{c.marks}</td><td>{c.text}</td></tr>)}
+                  {q.criteria.map((c) => <tr key={c.marks}><td className="w-16 font-mono font-semibold">{c.marks}</td><td><MathText text={c.text} /></td></tr>)}
                 </tbody>
               </table>
             </div>
@@ -202,7 +202,7 @@ function ShortView({ q, record, next, retry }: ViewProps<ShortQ>) {
           </div>
           <div className="rounded-lg border border-emerald-200 bg-emerald-50/50 p-3 text-sm dark:border-emerald-900 dark:bg-emerald-950/30">
             <div className="mb-1 font-semibold">Sample high-band response</div>
-            <p>{q.sample}</p>
+            <p><MathText text={q.sample} /></p>
           </div>
           <div className="flex gap-2">
             <button className="btn text-xs" onClick={retry}><RotateCcw size={13} /> Try again</button>
@@ -234,16 +234,16 @@ function CalcView({ q, record, next, retry }: ViewProps<CalcQ>) {
   return (
     <Card>
       {q.diagram && <div className="mb-3"><QuestionDiagram k={q.diagram} /></div>}
-      <p className="mb-3 font-medium">{q.stem} <span className="text-ink-500">({q.marks} marks)</span></p>
+      <p className="mb-3 font-medium"><MathText text={q.stem} /> <span className="text-ink-500">({q.marks} marks)</span></p>
       <div className="space-y-2">
         {q.parts.map((p, k) => (
           <div key={k} className="flex flex-wrap items-center gap-2">
             <span className="w-6 font-mono text-sm font-bold">({String.fromCharCode(97 + k)})</span>
-            <label className="min-w-[200px] flex-1 text-sm" htmlFor={`${q.id}-${k}`}>{p.label}</label>
+            <label className="min-w-[200px] flex-1 text-sm" htmlFor={`${q.id}-${k}`}><MathText text={p.label} /></label>
             <input id={`${q.id}-${k}`} className="input w-36" inputMode="decimal" value={vals[k]} onChange={(e) => (setChecked(false), setVals((v) => v.map((x, j) => (j === k ? e.target.value : x))))} />
             <span className="w-14 text-sm text-ink-500">{p.unit}</span>
             {checked && (results[k].ok ? <CheckCircle2 size={18} className="text-emerald-600" /> : <XCircle size={18} className="text-red-500" />)}
-            {checked && !results[k].ok && <p className="w-full pl-8 text-xs text-red-700 dark:text-red-400">{results[k].msg}</p>}
+            {checked && !results[k].ok && <p className="w-full pl-8 text-xs text-red-700 dark:text-red-400"><MathText text={results[k].msg} /></p>}
           </div>
         ))}
       </div>
