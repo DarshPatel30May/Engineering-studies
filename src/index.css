@@ -60,7 +60,7 @@
     @apply border-red-500 focus:border-red-500 focus:ring-red-500/30;
   }
   .label {
-    @apply mb-1 block text-xs font-medium uppercase tracking-wide text-ink-500 dark:text-ink-400;
+    @apply mb-1 block text-xs font-medium text-ink-500 dark:text-ink-400;
   }
   .chip {
     @apply inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-xs font-medium;

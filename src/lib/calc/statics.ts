@@ -168,7 +168,7 @@ export function solveBeam(beam: BeamSpec, loads: PointLoad[]): BeamResult | Calc
   steps.push({
     title: 'Check: moments about B',
     latex: [
-      `\\Sigma M_B = -R_A\\times${tex(span)} + \\Sigma P_i (x_B - x_i) = ${tex(clean(mB, 1e-9))} \\approx 0 \\ \\checkmark`,
+      `\\Sigma M_B = -R_A\\times${tex(span)} + \\Sigma P_i (x_B - x_i) = ${tex(clean(mB, 1e-9))} \\ \\checkmark`,
     ],
   });
 

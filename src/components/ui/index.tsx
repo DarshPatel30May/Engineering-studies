@@ -337,7 +337,7 @@ export function Stat({ label, value, unit, tone = 'ink', sub }: { label: ReactNo
   };
   return (
     <div className="rounded-lg border border-ink-200 bg-ink-50/60 px-3 py-2 dark:border-ink-800 dark:bg-ink-950/50">
-      <div className="text-[11px] font-medium uppercase tracking-wide text-ink-500 dark:text-ink-400">{label}</div>
+      <div className="text-[11.5px] font-medium text-ink-500 dark:text-ink-400">{label}</div>
       <div className={cx('font-mono text-lg font-semibold tabular-nums', tones[tone])}>
         {value}
         {unit && <span className="ml-1 text-xs font-normal text-ink-500">{unit}</span>}
