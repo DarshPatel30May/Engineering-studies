@@ -1,0 +1,163 @@
+@import 'katex/dist/katex.min.css';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    color-scheme: light;
+    --grid: rgba(15, 23, 42, 0.045);
+    --diagram-ink: #1f2a30;
+    --diagram-muted: #64737a;
+    --diagram-bg: #ffffff;
+  }
+  .dark {
+    color-scheme: dark;
+    --grid: rgba(148, 163, 184, 0.06);
+    --diagram-ink: #e6ecee;
+    --diagram-muted: #9aa8ae;
+    --diagram-bg: #11171a;
+  }
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    @apply bg-ink-50 text-ink-900 antialiased dark:bg-ink-950 dark:text-ink-100;
+    font-feature-settings: 'cv11', 'ss01';
+  }
+  :focus-visible {
+    @apply outline-none ring-2 ring-emerald-500 ring-offset-2 ring-offset-white dark:ring-offset-ink-900;
+  }
+  h1, h2, h3, h4 {
+    @apply tracking-tight;
+  }
+}
+
+@layer components {
+  .grid-bg {
+    background-image: linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+    background-size: 24px 24px;
+  }
+  .card {
+    @apply rounded-xl border border-ink-200 bg-white shadow-sm dark:border-ink-800 dark:bg-ink-900;
+  }
+  .card-pad {
+    @apply p-4 sm:p-5;
+  }
+  .btn {
+    @apply inline-flex items-center justify-center gap-1.5 rounded-lg border border-ink-200 bg-white px-3 py-1.5 text-sm font-medium text-ink-800 transition hover:border-ink-300 hover:bg-ink-50 disabled:cursor-not-allowed disabled:opacity-50 dark:border-ink-700 dark:bg-ink-800 dark:text-ink-100 dark:hover:bg-ink-700;
+  }
+  .btn-primary {
+    @apply border-emerald-600 bg-emerald-600 text-white hover:border-emerald-700 hover:bg-emerald-700 dark:border-emerald-500 dark:bg-emerald-600 dark:hover:bg-emerald-500;
+  }
+  .btn-ghost {
+    @apply border-transparent bg-transparent hover:bg-ink-100 dark:bg-transparent dark:hover:bg-ink-800;
+  }
+  .input {
+    @apply w-full rounded-lg border border-ink-200 bg-white px-2.5 py-1.5 text-sm tabular-nums text-ink-900 shadow-inner shadow-ink-100/40 transition placeholder:text-ink-400 focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/30 dark:border-ink-700 dark:bg-ink-950 dark:text-ink-100 dark:shadow-none;
+  }
+  .input-error {
+    @apply border-red-500 focus:border-red-500 focus:ring-red-500/30;
+  }
+  .label {
+    @apply mb-1 block text-xs font-medium uppercase tracking-wide text-ink-500 dark:text-ink-400;
+  }
+  .chip {
+    @apply inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-xs font-medium;
+  }
+  .kbd {
+    @apply rounded border border-ink-300 bg-ink-100 px-1.5 py-0.5 font-mono text-[10px] text-ink-600 dark:border-ink-600 dark:bg-ink-800 dark:text-ink-300;
+  }
+  .prose-eng {
+    @apply text-[15px] leading-relaxed text-ink-700 dark:text-ink-300;
+  }
+  .prose-eng strong {
+    @apply font-semibold text-ink-900 dark:text-ink-100;
+  }
+  .diagram {
+    @apply w-full select-none;
+    color: var(--diagram-ink);
+  }
+  .diagram text {
+    font-family: 'Inter Variable', Inter, system-ui, sans-serif;
+  }
+  .tbl {
+    @apply w-full border-collapse text-sm;
+  }
+  .tbl th {
+    @apply border-b border-ink-200 bg-ink-50 px-3 py-2 text-left text-xs font-semibold uppercase tracking-wide text-ink-500 dark:border-ink-700 dark:bg-ink-800/60 dark:text-ink-400;
+  }
+  .tbl td {
+    @apply border-b border-ink-100 px-3 py-2 align-top dark:border-ink-800;
+  }
+  input[type='range'] {
+    @apply h-1.5 w-full cursor-pointer appearance-none rounded-full bg-ink-200 accent-emerald-600 dark:bg-ink-700;
+  }
+}
+
+/* Visual-only revision mode hides explanatory prose and keeps diagrams, formulas and key points. */
+.visual-only .prose-only {
+  display: none !important;
+}
+
+.katex {
+  font-size: 1.05em;
+}
+.katex-display {
+  margin: 0.4em 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 2px 0;
+}
+
+@keyframes dash {
+  to {
+    stroke-dashoffset: -20;
+  }
+}
+.flow-dash {
+  stroke-dasharray: 6 4;
+  animation: dash 0.8s linear infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .flow-dash {
+    animation: none;
+  }
+  * {
+    scroll-behavior: auto !important;
+  }
+}
+
+@media print {
+  @page {
+    size: A4;
+    margin: 12mm;
+  }
+  body {
+    background: white !important;
+    color: black !important;
+  }
+  .no-print,
+  nav,
+  header,
+  aside {
+    display: none !important;
+  }
+  .print-area {
+    margin: 0 !important;
+    padding: 0 !important;
+    max-width: none !important;
+  }
+  .card {
+    break-inside: avoid;
+    box-shadow: none !important;
+    border-color: #ccc !important;
+    background: white !important;
+  }
+  .dark * {
+    color: black !important;
+  }
+  .print-break {
+    break-before: page;
+  }
+}
